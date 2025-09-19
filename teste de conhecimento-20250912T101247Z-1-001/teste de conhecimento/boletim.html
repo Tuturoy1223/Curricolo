@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Boletim Escolar — Modelo</title>
+  <style>
+    :root{
+      --accent:#2b7a78;
+      --muted:#6b6b6b;
+      --pass:#1b7a1b;
+      --fail:#c62828;
+      --bg:#f7f7f9;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    body{background:var(--bg);margin:0;padding:24px;color:#222}
+    .card{max-width:880px;margin:0 auto;background:white;border-radius:12px;box-shadow:0 6px 18px rgba(20,20,20,0.08);padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:18px}
+    header .school{display:flex;gap:12px;align-items:center}
+    .logo{width:80px;height:80px;object-fit:contain}
+    h1{font-size:18px;margin:0}
+    .meta{font-size:13px;color:var(--muted)}
+
+    .info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
+    .info .block{background:#fbfbfc;padding:10px;border-radius:8px;border:1px solid #f0f0f2}
+    .block b{display:block;margin-bottom:6px}
+
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th,td{padding:10px 8px;text-align:left;border-bottom:1px dashed #eee}
+    th{background:#fcfcfd;text-transform:uppercase;font-size:12px;color:var(--muted)}
+    td.grade{font-weight:700;text-align:center}
+
+    .summary{display:flex;justify-content:flex-end;gap:18px;margin-top:12px}
+    .pill{padding:8px 12px;border-radius:999px;background:#fbfbfb;border:1px solid #eee}
+
+    .actions{display:flex;gap:8px}
+    button{background:var(--accent);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer}
+    button.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+
+    .pass{color:var(--pass)}
+    .fail{color:var(--fail)}
+
+    @media print{
+      body{background:white}
+      .card{box-shadow:none;border-radius:0;padding:0}
+      .actions, .meta{display:none}
+    }
+
+    @media (max-width:640px){
+      .info{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+      .summary{justify-content:space-between}
+    }
+
+    /* Botão e menu lateral */
+    #menuBtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      background: var(--accent);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      z-index: 1001;
+    }
+
+    #sideMenu {
+      position: fixed;
+      top: 0;
+      left: -240px;
+      width: 220px;
+      height: 100%;
+      background: white;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    #sideMenu a {
+      margin: 12px 0;
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    #sideMenu.show {
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Tela principal -->
+  <div class="card" id="boletim">
+    <header>
+      <div class="school">
+        <img src="imagem/images.jpeg" alt="Logo da Escola" class="logo" />
+        <div>
+          <h1>Escola Estadual Presidente Dutra - Belo Horizonte</h1>
+          <div class="meta">Boletim escolar — <span id="anoLetivo">2025</span></div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="printBtn">Imprimir</button>
+      </div>
+    </header>
+
+    <!-- Mensagem de boas-vindas -->
+    <section style="margin-bottom:20px; background:#fbfbfc; padding:12px; border-radius:8px; border:1px solid #eee;">
+      <h2 style="margin:0; color:var(--accent);">Bem-vindo ao Boletim Online</h2>
+      <p style="margin:6px 0 0; color:#444;">
+        Aqui você pode se cadastrar e registrar suas notas dos bimestres de forma simples e rápida.
+      </p>
+    </section>
+
+    <!-- Dados do boletim (escondidos na inicial) -->
+    <div id="dadosBoletim">
+      <section class="info">
+        <div class="block">
+          <b>Aluno</b>
+          <input type="text" id="studentName" placeholder="Digite o nome do aluno" style="width:100%" />
+        </div>
+        <div class="block">
+          <b>RG</b>
+          <input type="text" id="rg" placeholder="Digite o RG" style="width:100%" />
+        </div>
+        <div class="block">
+          <b>Professor</b>
+          <input type="text" id="professor" placeholder="Nome do professor" style="width:100%" />
+        </div>
+        <div class="block">
+          <b>Ano Letivo</b>
+          <input type="number" id="ano" value="2025" style="width:100%" />
+        </div>
+      </section>
+
+      <section>
+        <table id="gradesTable">
+          <thead>
+            <tr>
+              <th>Disciplina</th>
+              <th>Nota 1</th>
+              <th>Nota 2</th>
+              <th>Trabalho</th>
+              <th>Média</th>
+              <th>Situação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Matemática</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Português</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Artes</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>História</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Geografia</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Manutenção de Computador</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Sociologia</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Práticas Experimentais</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Sistemas Operacionais</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Esportes Inclusão</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Biologia</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Física</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Química</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Projeto de Vida</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>POO / Java</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Programação Web</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Lógica de Programação</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Estudos Orientados</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Filosofia</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Educação Física</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+    <tr><td>Inglês</td><td><input type="number" class="n1" /></td><td><input type="number" class="n2" /></td><td><input type="number" class="work" /></td><td class="grade">—</td><td class="status">—</td></tr>
+        </table>
+
+        <div class="summary">
+          <div class="pill">Média geral: <span id="gpa">—</span></div>
+        </div>
+      </section>
+    </div>
+
+    <footer style="margin-top:18px;font-size:13px;color:var(--muted)">
+      Observações: <span id="obs">Nenhuma</span>
+    </footer>
+  </div>
+
+  <!-- Seção de cadastro de aluno -->
+  <section id="cadastroAluno" style="display:none; margin-top:20px;">
+    <h2>Cadastrar Aluno</h2>
+    <div class="info">
+      <div class="block">
+        <b>Aluno</b>
+        <input type="text" id="newAluno" placeholder="Digite o nome do aluno" style="width:100%" />
+      </div>
+      <div class="block">
+        <b>RG</b>
+        <input type="text" id="newRg" placeholder="Digite o RG" style="width:100%" />
+      </div>
+      <div class="block">
+        <b>Professor</b>
+        <input type="text" id="newProfessor" placeholder="Nome do professor" style="width:100%" />
+      </div>
+      <div class="block">
+        <b>Ano Letivo</b>
+        <input type="number" id="newAno" value="2025" style="width:100%" />
+      </div>
+    </div>
+    <button onclick="voltarBoletim()">Voltar</button>
+  </section>
+
+  <!-- Seção somente Notas -->
+  <section id="notasSection" style="display:none; margin-top:20px;">
+    <h2>Notas</h2>
+    <p>Aqui você pode lançar suas notas do bimestre.</p>
+    <div id="tabelaNotas"></div>
+    <button onclick="voltarBoletim()">Voltar</button>
+  </section>
+
+  <!-- Botão do menu -->
+  <div id="menuBtn">☰</div>
+
+  <!-- Menu lateral escondido -->
+  <nav id="sideMenu">
+    <a href="#" id="menuInicio">Início</a>
+    <a href="#" id="menuCadastrarAluno">Cadastrar Aluno</a>
+    <a href="#" id="menuNotas">Notas</a>
+    <a href="#">Configurações</a>
+  </nav>
+
+  <script>
+    const passingGrade = 6.0;
+
+    function calculateRow(tr){
+      const n1 = parseFloat(tr.querySelector('.n1').value) || 0;
+      const n2 = parseFloat(tr.querySelector('.n2').value) || 0;
+      const work = parseFloat(tr.querySelector('.work').value) || 0;
+      const avg = (n1 * 0.35) + (n2 * 0.35) + (work * 0.30);
+      const gradeCell = tr.querySelector('.grade');
+      gradeCell.textContent = avg.toFixed(1);
+      const statusCell = tr.querySelector('.status');
+      if(avg >= passingGrade){
+        statusCell.textContent = 'Aprovado';
+        statusCell.classList.remove('fail');
+        statusCell.classList.add('pass');
+      } else {
+        statusCell.textContent = 'Reprovado';
+        statusCell.classList.remove('pass');
+        statusCell.classList.add('fail');
+      }
+      return avg;
+    }
+
+    function recalc(sectionId, gpaId){
+      const rows = document.querySelectorAll(sectionId + " .n1");
+      if(rows.length === 0) return;
+      let total = 0, count = 0;
+      document.querySelectorAll(sectionId + " tbody tr").forEach(r=>{
+        total += calculateRow(r);
+        count++;
+      });
+      const gpa = count ? (total / count) : 0;
+      document.querySelector(gpaId).textContent = gpa ? gpa.toFixed(2) : "—";
+    }
+
+    // recalcular sempre que mudar algo
+    document.addEventListener("input", (e)=>{
+      if(e.target.classList.contains("n1") || e.target.classList.contains("n2") || e.target.classList.contains("work")){
+        recalc("#boletim","#gpa");
+      }
+    });
+
+    recalc("#boletim","#gpa");
+
+    // Menu lateral
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const boletim = document.getElementById("boletim");
+    const cadastroAluno = document.getElementById("cadastroAluno");
+    const notasSection = document.getElementById("notasSection");
+    const dadosBoletim = document.getElementById("dadosBoletim");
+    const printBtn = document.getElementById("printBtn");
+
+    menuBtn.addEventListener("click", () => {
+      sideMenu.classList.toggle("show");
+    });
+
+    // Início → só boas-vindas
+    document.getElementById("menuInicio").addEventListener("click", (e)=>{
+      e.preventDefault();
+      boletim.style.display = "block";
+      cadastroAluno.style.display = "none";
+      notasSection.style.display = "none";
+      dadosBoletim.style.display = "none";
+      printBtn.style.display = "none";
+      sideMenu.classList.remove("show");
+    });
+
+    // Cadastrar Aluno
+    document.getElementById("menuCadastrarAluno").addEventListener("click", (e)=>{
+      e.preventDefault();
+      boletim.style.display = "none";
+      cadastroAluno.style.display = "block";
+      notasSection.style.display = "none";
+      sideMenu.classList.remove("show");
+    });
+
+    // Notas
+    document.getElementById("menuNotas").addEventListener("click", (e)=>{
+      e.preventDefault();
+      boletim.style.display = "block";
+      cadastroAluno.style.display = "none";
+      notasSection.style.display = "block";
+      dadosBoletim.style.display = "block";
+      printBtn.style.display = "inline-block";
+      sideMenu.classList.remove("show");
+    });
+
+    function voltarBoletim(){
+      boletim.style.display = "block";
+      cadastroAluno.style.display = "none";
+      notasSection.style.display = "none";
+      dadosBoletim.style.display = "none";
+      printBtn.style.display = "none";
+    }
+
+    // tela inicial limpa
+    dadosBoletim.style.display = "none";
+    printBtn.style.display = "none";
+  </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background: #001f3f;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav {
+      background: #003366;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px;
+    }
+
+    nav button {
+      background: #001f3f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    nav button:hover {
+      background: #00509e;
+    }
+
+    .tela {
+      display: none;
+      padding: 20px;
+    }
+
+    .ativa {
+      display: block;
+    }
+
+    h2 {
+      color: #001f3f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Meu Portfólio</h1>
+  </header>
+
+  <nav>
+    <button onclick="mostrarTela('portfolio')">Portfólio</button>
+    <button onclick="mostrarTela('cursos')">Cursos</button>
+    <button onclick="mostrarTela('certificados')">Certificados</button>
+    <button onclick="mostrarTela('redes')">Redes Sociais</button>
+    <button onclick="mostrarTela('tecnologias')">Tecnologias</button>
+    <button onclick="mostrarTela('contato')">Contato</button>
+    <button onclick="mostrarTela('sobre')">Sobre Mim</button>
+    <button onclick="mostrarTela('escolas')">Escolas</button>
+  </nav>
+
+  <!-- Telas -->
+  <div id="portfolio" class="tela ativa">
+    <h2>Portfólio</h2>
+    <p>Aqui estão alguns dos meus projetos desenvolvidos...</p>
+   <a href="escola.html">Projeto Escola</a><br>
+   <a href="LazaroSalgados.html">Projeto Loja de Salgados</a><br>
+   <a href="boletim.html">Projeto Boletim</a><br>
+   <a href="C:\Users\Aluno_21\OneDrive\Área de Trabalho\arthur l\Dutra 2025 Jesus\teste de conhecimento\teste de conhecimento-20250912T101247Z-1-001\teste de conhecimento\calculadora.html">Projeto Calculadora</a><br>
+   <img src="imagem/WhatsApp Image 2025-09-10 at 10.22.07.jpeg" alt="Imagem" width="15%"><br>
+   <div id="portfolio" class="tela ativa">
+ 
+
+  <!-- Carrossel -->
+  <div class="carrossel">
+    <!-- Slide 1 -->
+    <div class="slides ativo">
+      <a href="https://escolas.microlins.com.br/" target="_blank">
+        <img src="C:\Users\Aluno_21\OneDrive\Área de Trabalho\arthur l\Dutra 2025 Jesus\teste de conhecimento\teste de conhecimento-20250912T101247Z-1-001\teste de conhecimento\imagem\MICROLINS-1024x258.png" alt="Microlins" width="30%" height="50">
+      </a>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slides">
+      <a href="https://www.mg.gov.br/instituicao_unidade/escola-estadual-presidente-dutra" target="_blank">
+        <img src="C:\Users\Aluno_21\OneDrive\Área de Trabalho\arthur l\Dutra 2025 Jesus\teste de conhecimento\teste de conhecimento-20250912T101247Z-1-001\teste de conhecimento\imagem\images.jpeg" alt="Escola Estadual Presidente Dutra" width="70%" height="100">
+      </a>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slides">
+      <a href="https://www.escol.as/160321-escola-municipal-anisio-teixeira" target="_blank">
+        <img src="imagem/19 de set. de 2025, 07_30_26.png" alt="Escola Municipal Anísio Teixeira" width="100%" height="400">
+      </a>
+    </div>
+
+    <!-- Botões -->
+    <button class="prev" onclick="mudarSlide(-1)">&#10094;</button>
+    <button class="next" onclick="mudarSlide(1)">&#10095;</button>
+  </div>
+</div>
+
+   
+   
+   
+  </div>
+
+  <div id="cursos" class="tela">
+    <h2>Cursos</h2>
+    <ul>
+      <li>Curso de HTML e CSS</li>
+      <li>Curso de JavaScript</li>
+      <li>Curso de Programação Web</li>
+      <li>Curso de Power Point</li>
+      <li>Curso de Internet e Outlook</li>
+      <li>Curso de Execel avançado</li>
+      <li>Curso de Logica de Programaçao</li>
+      <li>Curso de Banco de dados SQl</li>
+      <li>Curso de Programação Web</li>
+      <li>Curso de WordPress</li>
+      <li>Curso de Excel Básico</li>
+    </ul>
+  </div>
+
+  <div id="certificados" class="tela">
+    <h2>Certificados</h2>
+    <p>Meus certificados conquistados em cursos e formações.</p>
+    <img src="imagem/Captura de tela 2025-09-10 082543.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 083029.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082956.png " alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082943.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082928.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082738.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082718.png" alt="">
+    <img src="imagem/Captura de tela 2025-09-10 082543.png" alt="">
+  </div>
+
+  <div id="redes" class="tela">
+    <h2>Redes Sociais</h2>
+      <p><a href="https://github.com/">GitHub</a></p>
+    <p><a href="https://www.instagram.com/tutu_olivbic/">Instagram</a></p>
+  </div>
+
+  <div id="tecnologias" class="tela">
+    <h2>Tecnologias</h2>
+    <p>HTML, CSS, JavaScript, Execel Avançado, SQL, etc.</p>
+  </div>
+
+  <div id="contato" class="tela">
+    <h2>Contato</h2>
+    <p>Email: arthurlazaro79@gmail.com</p>
+    <p>Telefone: (31) 99420-1191</p>
+  </div>
+
+  <div id="sobre" class="tela">
+    <h2>Sobre Mim</h2>
+    <p>Olá! Meu nome é Arthur Lazaro Oliveira de Carvalho Bicalho, gosto por tecnologia e inovação. Sempre gostei de explorar novas ideias, aprender ferramentas digitais e criar soluções criativas para o dia a dia.
+No meu tempo livre, gosto de estudar programação, design e desenvolvimento web, buscando sempre evoluir e acompanhar as tendências do mundo digital.
+Meu objetivo é crescer profissionalmente na área de tecnologia, colaborar em projetos desafiadores e, ao mesmo tempo, continuar aprendendo constantemente.
+Além disso, valorizo muito a dedicação, trabalho em equipe e a busca por novos conhecimentos, pois acredito que são pilares fundamentais para alcançar grandes conquistas. </p>
+
+  </div>
+
+  <div id="escolas" class="tela">
+    <h2>Escolas Frequentadas</h2>
+    <ul>
+      <li>Escola Municipal Ansio Texeira</li>
+      <li>Escola Estatual Presidente Dutra</li>
+      <li>Microlins </li>
+      
+    </ul>
+  </div>
+
+  <script>
+    function mostrarTela(id) {
+      // Esconde todas as telas
+      let telas = document.querySelectorAll('.tela');
+      telas.forEach(tela => tela.classList.remove('ativa'));
+
+      // Mostra a tela escolhida
+      document.getElementById(id).classList.add('ativa');
+    }
+  </script>
+</body>
+</html>
